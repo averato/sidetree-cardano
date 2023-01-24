@@ -24,7 +24,7 @@ export default class CardanoClient {
   constructor (
     readonly cardanoWalletMnemonic: string,
     readonly blockfrostProjectId: string,
-    readonly cardanoNetwork: 'mainnet' | 'testnet',
+    readonly cardanoNetwork: 'mainnet' | 'testnet' | 'preview',
     readonly cardanoMetadataLabel: string
   ) {
 
@@ -59,11 +59,36 @@ export default class CardanoClient {
    */
   public async createSidetreeTransaction (transactionData: string): Promise<CardanoSidetreeTransactionModel> {
     const protoParams = await this.getLatestProtocolParameters();
-    const ledgerTip = await this.getLedgetTip();
+    const ledgerTip = await this.getLedgerTip();
     const utxos = await this.getUtxos();
-    const transaction = this.cardanoWallet.createAndSignTransaction(transactionData, this.cardanoMetadataLabel, protoParams, utxos, ledgerTip.slot);
+    const transaction = this.cardanoWallet.createAndSignTransaction(transactionData
+                                                                   , this.cardanoMetadataLabel
+                                                                   , protoParams
+                                                                   , utxos
+                                                                   , ledgerTip.slot);
     return transaction;
   }
+
+  /**
+   * Create signed transaction without submiting it directly
+   * @param lockAmountInLovelace The amount to lock.
+   * @param lockDurationInblock The number of block to lock the amount for; the amount become spendable After this block.
+   * @returns the signed transaction 
+   */
+  public async createLockTransaction(transactionData: string): Promise<CardanoTransactionModel> {
+    const transaction = await this.createSidetreeTransaction(transactionData);
+    return transaction;
+  }  
+
+  /**
+   * Create signed transaction without submiting it directly
+   * @returns the signed transaction 
+   */
+  public async createReleaseLockTransaction(transactionId: string): Promise<CardanoTransactionModel> {
+    // const transaction = await this.createSidetreeTransaction(transactionData);
+    // return transaction;
+  }  
+
 
   /**
    * Get enough UTXO from address to cover 1 ADA + fees = aprox 1.5 ADAS = 1500000 Lovelaces
@@ -109,7 +134,7 @@ export default class CardanoClient {
   }
 
   /**
-   * Get the full transaction data from th blockchain
+   * Get the full transaction data from the blockchain
    * @param transactionHash The target transaction id.
    * @returns the full tramsaction
    */
@@ -207,7 +232,7 @@ export default class CardanoClient {
    * Get the latest block in Cardano
    * @returns the latest block
    */
-  public async getLedgetTip (): Promise<CardanoBlockModel> {
+  public async getLedgerTip (): Promise<CardanoBlockModel> {
     const latestBlock = await this.blockfrostAPI.blocksLatest();
     return {
       time: latestBlock.time,
@@ -219,5 +244,16 @@ export default class CardanoClient {
       confirmations: latestBlock.confirmations
     };
   }
+
+  private async createFreezeTransaction (
+    unspentCoins: CardanoInputModel[]
+    freezeDurationInBlocks: number,
+    freezeAmountInLovlace: number): Promise<[CardanoTransactionModel]
+
+    Logger.info(`Creating a freeze transaction for amount: ${freezeAmountInSatoshis} satoshis with freeze time in blocks: ${freezeDurationInBlocks}`);
+
+    return [];
+  }
+
 
 }

@@ -399,21 +399,21 @@ export default class CardanoProcessor {
   public async getActiveValueTimeLockForThisNode (): Promise<ValueTimeLockModel> {
     let currentLock: ValueTimeLockModel | undefined;
     // TODO
-    // try {
-    //   currentLock = await this.lockMonitor.getCurrentValueTimeLock();
-    // } catch (e) {
+    try {
+       currentLock = await this.lockMonitor.getCurrentValueTimeLock();
+    } catch (e) {
 
-    //   if (e instanceof SidetreeError && e.code === ErrorCode.LockMonitorCurrentValueTimeLockInPendingState) {
-    //     throw new RequestError(ResponseStatus.NotFound, ErrorCode.ValueTimeLockInPendingState);
-    //   }
+      if (e instanceof SidetreeError && e.code === ErrorCode.LockMonitorCurrentValueTimeLockInPendingState) {
+         throw new RequestError(ResponseStatus.NotFound, ErrorCode.ValueTimeLockInPendingState);
+      }
 
-    //   Logger.error(`Current value time lock retrieval failed with error: ${JSON.stringify(e, Object.getOwnPropertyNames(e))}`);
-    //   throw new RequestError(ResponseStatus.ServerError);
-    // }
-
-    if (!currentLock) {
-      throw new RequestError(ResponseStatus.NotFound, SharedErrorCode.ValueTimeLockNotFound);
+      Logger.error(`Current value time lock retrieval failed with error: ${JSON.stringify(e, Object.getOwnPropertyNames(e))}`);
+      throw new RequestError(ResponseStatus.ServerError);
     }
+
+//    if (!currentLock) {
+//      throw new RequestError(ResponseStatus.NotFound, SharedErrorCode.ValueTimeLockNotFound);
+//    }
 
     return currentLock;
   }

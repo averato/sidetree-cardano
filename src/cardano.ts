@@ -32,6 +32,7 @@ async function handleRequestAndSetKoaResponse (requestHandler: () => Promise<any
       koaResponse.body = '';
     }
   } catch (error) {
+    // console
     if ('status' in error) {
       koaResponse.status = error.status;
     } else {
@@ -74,7 +75,7 @@ const router = new Router();
 
 router.get('/transactions', async (ctx, _next) => {
   const params = querystring.parse(ctx.querystring);
-
+  console.log(`Cardano transactions params: ${ctx}`);
   let requestHandler;
   if ('since' in params && 'transaction-time-hash' in params) {
     const since = Number(params['since']);
@@ -158,8 +159,8 @@ try {
   console.log(error.toString());
   process.exit(1);
 }
-console.info('Sidetree Cardano service configuration:');
-console.info(config);
+// console.info('Sidetree Cardano service configuration:');
+// console.info(config);
 
 export {
   server,

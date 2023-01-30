@@ -100,6 +100,7 @@ router.get('/fee/:blockchainTime', async (ctx, _next) => {
 
 router.post('/transactions', async (ctx, _next) => {
   const writeRequest = JSON.parse(ctx.body);
+  console.log(`Tansaction anchor string: ${writeRequest.anchorString}`);
   const requestHandler = () => blockchainService.writeTransaction(writeRequest.anchorString);
   await handleRequestAndSetKoaResponse(requestHandler, ctx.response);
 });
@@ -111,6 +112,11 @@ router.get('/time', async (ctx, _next) => {
 
 router.get('/time/:hash', async (ctx, _next) => {
   const requestHandler = () => blockchainService.time(ctx.params.hash);
+  await handleRequestAndSetKoaResponse(requestHandler, ctx.response);
+});
+
+router.get('/locks/:identifier', async (ctx, _next) => {
+  const requestHandler = () => blockchainService.getValueTimeLock(ctx.params.identifier);
   await handleRequestAndSetKoaResponse(requestHandler, ctx.response);
 });
 

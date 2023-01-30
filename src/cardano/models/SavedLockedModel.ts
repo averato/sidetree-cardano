@@ -1,11 +1,12 @@
-import LockTransactionType from '../enums/SavedLockType';
+import LockTransactionType from './SavedLockType';
 
 /**
  * Encapsulates the data about a bitcoin 'lock' transaction saved in the database.
  */
 export default interface SavedLockModel {
-  transactionId: string;
+  transactionHash: string;
   rawTransaction: string;
+  datum: string;
   redeemScriptAsHex: string;
 
   /**
@@ -13,7 +14,7 @@ export default interface SavedLockModel {
    * actual locked amount may be different as we lock more than the 'desired' amount to
    * account for any fee(s) required for relocking etc.
    */
-  desiredLockAmountInSatoshis: number;
+  desiredLockAmountInAda: number;
   createTimestamp: number;
   type: LockTransactionType;
-}
+};

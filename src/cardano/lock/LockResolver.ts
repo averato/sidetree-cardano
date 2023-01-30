@@ -61,23 +61,24 @@ export default class LockResolver {
     // the specified transaction.
 
     // (A). verify redeem script is a lock script
-    const redeemScriptObj = LockResolver.createScript(lockIdentifier.redeemScriptAsHex);
-    const scriptVerifyResult = LockResolver.isRedeemScriptALockScript(redeemScriptObj);
-
-    if (!scriptVerifyResult.isScriptValid) {
-      throw new SidetreeError(ErrorCode.LockResolverRedeemScriptIsNotLock, `${redeemScriptObj.toASM()}`);
-    }
+//    const redeemScriptObj = LockResolver.createScript(lockIdentifier.redeemScriptAsHex);
+//    const scriptVerifyResult = LockResolver.isRedeemScriptALockScript(redeemScriptObj);
+//
+//    if (!scriptVerifyResult.isScriptValid) {
+//      throw new SidetreeError(ErrorCode.LockResolverRedeemScriptIsNotLock, `${redeemScriptObj.toASM()}`);
+//    }
 
     // (B). verify that the transaction is paying to the target redeem script
     const lockTransaction = await this.getTransaction(lockIdentifier.transactionId);
 
-    const transactionIsPayingToTargetRedeemScript = lockTransaction.outputs.length > 0 &&
-                                                    LockResolver.isOutputPayingToTargetScript(lockTransaction.outputs[0], redeemScriptObj);
+    const transactionIsPayingToTargetRedeemScript = false;
+      // lockTransaction.outputs.length > 0 &&
+      // LockResolver.isOutputPayingToTargetScript(lockTransaction.outputs[0], redeemScriptObj);
 
-    if (!transactionIsPayingToTargetRedeemScript) {
-      throw new SidetreeError(ErrorCode.LockResolverTransactionIsNotPayingToScript,
-                             `Transaction id: ${lockIdentifier.transactionId} Script: ${redeemScriptObj.toASM()}`);
-    }
+//    if (!transactionIsPayingToTargetRedeemScript) {
+//      throw new SidetreeError(ErrorCode.LockResolverTransactionIsNotPayingToScript,
+//                             `Transaction id: ${lockIdentifier.transactionId} Script: ${redeemScriptObj.toASM()}`);
+//    }
 
     // Now that the lock identifier has been verified, return the lock information
     const serializedLockIdentifier = LockIdentifierSerializer.serialize(lockIdentifier);

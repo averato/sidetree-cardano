@@ -8,7 +8,7 @@ import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransaction
 import CardanoTransactionModel from './models/CardanoTransactionModel';
 import CardanoWallet from './CardanoWallet';
 import ICardanoWallet from './interfaces/ICardanoWallet';
-import Logger from '@k-solutions/sidetree/lib/common/Logger';
+import Logger from '@k-solutions/sidetree/dist/lib/common/Logger';
 import TransactionNumber from './TransactionNumber';
 
 /**
@@ -75,7 +75,7 @@ export default class CardanoClient {
    * @param lockDurationInblock The number of block to lock the amount for; the amount become spendable After this block.
    * @returns the signed transaction 
    */
-  public async createLockTransaction(transactionData: string): Promise<CardanoTransactionModel> {
+  public async createLockTransaction(transactionData: string): Promise<CardanoSidetreeTransactionModel> {
     const transaction = await this.createSidetreeTransaction(transactionData);
     return transaction;
   }  
@@ -84,9 +84,9 @@ export default class CardanoClient {
    * Create signed transaction without submiting it directly
    * @returns the signed transaction 
    */
-  public async createReleaseLockTransaction(transactionId: string): Promise<CardanoTransactionModel> {
-    // const transaction = await this.createSidetreeTransaction(transactionData);
-    // return transaction;
+  public async createReleaseLockTransaction(transactionHash: string): Promise<CardanoTransactionModel> {
+    const transaction = await this.getTransaction(transactionHash);
+    return transaction;
   }  
 
 
@@ -245,15 +245,13 @@ export default class CardanoClient {
     };
   }
 
-  private async createFreezeTransaction (
-    unspentCoins: CardanoInputModel[]
-    freezeDurationInBlocks: number,
-    freezeAmountInLovlace: number): Promise<[CardanoTransactionModel]
-
-    Logger.info(`Creating a freeze transaction for amount: ${freezeAmountInSatoshis} satoshis with freeze time in blocks: ${freezeDurationInBlocks}`);
-
-    return [];
-  }
-
+//  private async createFreezeTransaction (
+//    unspentCoins: CardanoInputModel[],
+//    freezeDurationInBlocks: number,
+//    freezeAmountInLovlace: number): Promise<CardanoTransactionModel> {
+//    Logger.info(`Creating a freeze transaction for amount: ${freezeAmountInLovlace} satoshis with freeze time in blocks: ${freezeDurationInBlocks}`);
+//
+//    return [];
+//  }
 
 }

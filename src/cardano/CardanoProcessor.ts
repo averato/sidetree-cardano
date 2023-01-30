@@ -24,6 +24,7 @@ import SidetreeError from '@k-solutions/sidetree/dist/lib//common/SidetreeError'
 import TransactionFeeModel from '@k-solutions/sidetree/dist/lib/common/models/TransactionFeeModel';
 import TransactionModel from '@k-solutions/sidetree/dist/lib/common/models/TransactionModel';
 import ValueTimeLockModel from '@k-solutions/sidetree/dist/lib/common/models/ValueTimeLockModel';
+// import LockMonitor from './lock/LockMonitor';
 
 /**
  * Object representing a blockchain time and hash
@@ -57,6 +58,7 @@ export default class CardanoProcessor {
   private minConfirmations: Number;
 
   // private spendingMonitor: SpendingMonitor;
+  // private lockMonitor: LockMonitor; 
 
   private serviceStateStore: MongoDbServiceStateStore<CardanoServiceStateModel>;
 
@@ -67,7 +69,6 @@ export default class CardanoProcessor {
     this.transactionMetadataStore = new MongoDbTransactionMetadataStore(config.mongoDbConnectionString, config.databaseName);
     this.transactionStore = new MongoDbTransactionStore(config.mongoDbConnectionString, config.databaseName);
     // this.spendingMonitor = new SpendingMonitor(config.cardanoFeeSpendingCutoffInLovelaces, this.transactionStore);
-
     this.serviceInfoProvider = new ServiceInfoProvider('cardano');
 
     this.minConfirmations = config.minimunConfirmationToValidateTransaction;
@@ -81,7 +82,17 @@ export default class CardanoProcessor {
       );
 
     this.monitor = new Monitor(this.cardanoClient);
-  }
+//    this.lockMonitor = new LockMonitor(
+//      this.bitcoinClient,
+//      this.mongoDbLockTransactionStore,
+//      this.lockResolver,
+//      config.valueTimeLockPollPeriodInSeconds,
+//      config.valueTimeLockUpdateEnabled,
+//      BitcoinClient.convertBtcToSatoshis(config.valueTimeLockAmountInBitcoins), // Desired lock amount in satoshis
+//      BitcoinClient.convertBtcToSatoshis(valueTimeLockTransactionFeesInBtc),    // Txn Fees amount in satoshis
+//      this.versionManager
+//    );
+ }
 
   /**
    * Initializes the Cardano processor
@@ -170,7 +181,7 @@ export default class CardanoProcessor {
   public async time (hash?: string): Promise<IBlockchainTime> {
     Logger.info(`Getting time ${hash ? 'of time hash ' + hash : ''}`);
     if (!hash) {
-      const latestBLock = await this.cardanoClient.getLedgetTip();
+      const latestBLock = await this.cardanoClient.getLedgerTip();
       return {
         time: latestBLock.height,
         hash: latestBLock.hash
@@ -385,7 +396,7 @@ export default class CardanoProcessor {
 
   /**
  * Calculate and return proof-of-fee value for a particular block.
- * @param _block The block height to get normalized fee for
+ * @param _block The block height to get n:ormalized fee for
  */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async getNormalizedFee (_block: number | string): Promise<TransactionFeeModel> {
@@ -394,13 +405,41 @@ export default class CardanoProcessor {
   }
 
   /**
+   * Gets the lock information for the specified identifier (if specified); if nothing is passed in then
+   * it returns the current lock information (if one exist).
+   *
+   * @param lockIdentifier The identifier of the lock to look up.
+   */
+  public async getValueTimeLock (lockIdentifier: string): Promise<ValueTimeLockModel> {
+
+    try {
+      // NOTE: must return the await response as otherwise, the following exception handler is not invoked
+      // (instead the caller's exception handler is invoked) and the correct status/error-code etc is not
+      // bubbled up above.
+      const currLock = await this.monitor.getCurrentValueTimeLock();  
+      if (!currLock) {
+       throw new RequestError(ResponseStatus.NotFound, SharedErrorCode.ValueTimeLockNotFound);
+      }
+
+      return currLock;
+     // this.lockResolver.resolveSerializedLockIdentifierAndThrowOnError(lockIdentifier);
+    } catch (e) {
+      Logger.info(`Value time lock not found. Identifier: ${lockIdentifier}. Error: ${JSON.stringify(e, Object.getOwnPropertyNames(e))}`);
+      throw new RequestError(ResponseStatus.NotFound, SharedErrorCode.ValueTimeLockNotFound);
+    }
+    
+  }
+
+
+  /**
    * Gets the lock information which is currently held by this node. It throws an RequestError if none exist.
    */
   public async getActiveValueTimeLockForThisNode (): Promise<ValueTimeLockModel> {
     let currentLock: ValueTimeLockModel | undefined;
     // TODO
     try {
-       currentLock = await this.lockMonitor.getCurrentValueTimeLock();
+      currentLock = await this.monitor.getCurrentValueTimeLock();
+      Logger.info(`We have current lock: ${currentLock}`);
     } catch (e) {
 
       if (e instanceof SidetreeError && e.code === ErrorCode.LockMonitorCurrentValueTimeLockInPendingState) {
@@ -411,9 +450,9 @@ export default class CardanoProcessor {
       throw new RequestError(ResponseStatus.ServerError);
     }
 
-//    if (!currentLock) {
-//      throw new RequestError(ResponseStatus.NotFound, SharedErrorCode.ValueTimeLockNotFound);
-//    }
+    if (!currentLock) {
+      throw new RequestError(ResponseStatus.NotFound, SharedErrorCode.ValueTimeLockNotFound);
+    }
 
     return currentLock;
   }

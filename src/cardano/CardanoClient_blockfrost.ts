@@ -16,9 +16,9 @@ import TransactionNumber from './TransactionNumber';
  * This implementation use Blockfrost to query the blockchain and submit transactions
  * This class can easily be adapted to use othe APIs to interact with Cardano
  */
-export default class CardanoClient {
+export default class CardanoClientBF {
 
-  private readonly cardanoWallet: ICardanoWallet;
+  protected readonly cardanoWallet: ICardanoWallet;
   private readonly blockfrostAPI: BlockFrostAPI;
 
   constructor (
@@ -30,7 +30,7 @@ export default class CardanoClient {
 
     this.cardanoWallet = new CardanoWallet(cardanoWalletMnemonic, cardanoNetwork);
 
-    this.blockfrostAPI = new BlockFrostAPI({ projectId: blockfrostProjectId, isTestnet: (this.cardanoNetwork === 'testnet') });
+    this.blockfrostAPI = new BlockFrostAPI({ projectId: blockfrostProjectId, network: this.cardanoNetwork });
 
   }
 
@@ -161,9 +161,11 @@ export default class CardanoClient {
     }
     let txmeta = '';
     try {
-      const jmeta:string = metadata[0].json_metadata![0];
-      const bmeta = Buffer.from(jmeta.replace('0x', ''), 'hex');
-      txmeta = bmeta.toString();
+      const jmeta = metadata[0].json_metadata;
+      if (typeof jmeta === 'string') {
+        const bmeta = Buffer.from(jmeta.replace('0x', ''), 'hex');
+        txmeta = bmeta.toString();
+      } else {throw new Error(); }  
     } catch (error) {
       txmeta = '';
     }

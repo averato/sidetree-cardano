@@ -19,7 +19,7 @@ import axios from 'axios';
  */
 export default class CardanoClient {
 
-  private readonly cardanoWallet: ICardanoWallet;
+  protected readonly cardanoWallet: ICardanoWallet;
 
   private readonly submitTxURL: string;
   private readonly graphQLURL: string;
@@ -45,13 +45,6 @@ export default class CardanoClient {
 
     Logger.info(`Wallet Address: ${this.cardanoWallet.getAddress()}`);
 
-  }
-
-  /**
-   * Accessor for Cardano client Wallet Address.
-   */
-  public async getAddress (): Promise<String> {
-    return this.cardanoWallet.getAddress();
   }
 
 

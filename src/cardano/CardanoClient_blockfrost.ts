@@ -30,7 +30,7 @@ export default class CardanoClientBF {
 
     this.cardanoWallet = new CardanoWallet(cardanoWalletMnemonic, cardanoNetwork);
 
-    this.blockfrostAPI = new BlockFrostAPI({ projectId: blockfrostProjectId, network: this.cardanoNetwork });
+    this.blockfrostAPI = new BlockFrostAPI({projectId: blockfrostProjectId}); //, network: this.cardanoNetwork });
 
   }
 
@@ -163,9 +163,8 @@ export default class CardanoClientBF {
     try {
       const jmeta = metadata[0].json_metadata;
       if (typeof jmeta === 'string') {
-        const bmeta = Buffer.from(jmeta.replace('0x', ''), 'hex');
-        txmeta = bmeta.toString();
-      } else {throw new Error(); }  
+        txmeta = Buffer.from(jmeta).toString();
+      } else { throw new Error(); }  
     } catch (error) {
       txmeta = '';
     }

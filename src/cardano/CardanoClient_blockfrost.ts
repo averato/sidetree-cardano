@@ -161,11 +161,11 @@ export default class CardanoClientBF {
     }
     let txmeta = '';
     try {
-      const jmeta = metadata[0].json_metadata;
-      if (typeof jmeta === 'string') {
-        txmeta = Buffer.from(jmeta).toString();
-      } else { throw new Error(); }  
+      const jmeta = metadata[0].json_metadata.toString();
+      txmeta = Buffer.from(jmeta.replace('0x', 'hex')).toString();
     } catch (error) {
+      Logger.error(`Current transaction metadata error: ${JSON.stringify(error, Object.getOwnPropertyNames(error))}`);
+
       txmeta = '';
     }
     return {

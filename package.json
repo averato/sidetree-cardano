@@ -9,9 +9,8 @@
   "dependencies": {
     "@blockfrost/blockfrost-js": "5.0.0",
     "@decentralized-identity/ion-sdk": "^0.5.0",
-    "@decentralized-identity/sidetree": "^1.0.6",
     "@emurgo/cardano-serialization-lib-nodejs": "^9.1.0",
-    "@k-solutions/sidetree": "git+ssh://git@github.com/k-solutions/sidetree.git",
+    "@k-solutions/sidetree": "k-solutions/sidetree#commmit=214a1f8cbb9f1ecb758cc20f7b506dc218d29256",
     "@supabase/postgrest-js": "^0.35.0",
     "@transmute/did-key-ed25519": "^0.3.0-unstable.4",
     "@types/bitcore-lib": "^0.15.3",
@@ -62,5 +61,5 @@
     "cardano": "node dist/cardano.js",
     "swagger": "node dist/swagger.js"
   },
-  "packageManager": "yarn@3.3.1"
+  "packageManager": "yarn@3.4.1"
 }

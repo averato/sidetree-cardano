@@ -271,7 +271,7 @@ export default class CardanoProcessor {
    * @param cardanoTransaction
    */
   private validateTransaction (cardanoTransaction: CardanoTransactionModel) : Boolean {
-    Logger.info('transaction: ' + cardanoTransaction);
+    Logger.info(`Cardano Transaction Metadata: ${cardanoTransaction.metadata}`);
     let validated = true;
     // Validate that cardano metadata starts with the configured prefix
     if (cardanoTransaction.metadata == null || !cardanoTransaction.metadata.startsWith(this.config.sidetreeTransactionPrefix)) {
@@ -439,7 +439,7 @@ export default class CardanoProcessor {
     // TODO
     try {
       currentLock = await this.monitor.getCurrentValueTimeLock();
-      Logger.info(`We have current lock: ${currentLock}`);
+      // Logger.info(`We have current lock: ${currentLock}`);
     } catch (e) {
 
       if (e instanceof SidetreeError && e.code === ErrorCode.LockMonitorCurrentValueTimeLockInPendingState) {

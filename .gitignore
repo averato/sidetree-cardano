@@ -3,7 +3,7 @@ node_modules/
 privatenotes.md
 *.log
 .DS_Store
-.yarn
+.yarn/
 # docker compose volume
 compose
 

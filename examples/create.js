@@ -8,8 +8,8 @@
   const util = require('util');
   const requestPromise = util.promisify(request);
 
-  // const nodeURL = 'http://localhost:3000';
-  const nodeURL = 'https://testnet.sidetree-cardano.com/cardano';
+  const nodeURL = 'http://localhost:3000';
+  // const nodeURL = 'https://testnet.sidetree-cardano.com/cardano';
 
   // Generate update and recovery keys for sidetree protocol
   // Should be stored somewhere, you'll need later for updates and recovery of your DID
@@ -30,7 +30,7 @@
   const didDocument = {
     publicKeys: [
       {
-        id: 'key-1',
+        id: 'key-02',
         type: 'EcdsaSecp256k1VerificationKey2019',
         publicKeyJwk: authnKeys.publicJwk,
         purposes: ['authentication']
@@ -38,9 +38,9 @@
     ],
     services: [
       {
-        id: 'domain-1',
+        id: 'domain-02',
         type: 'LinkedDomains',
-        serviceEndpoint: 'https://foo.example.com'
+        serviceEndpoint: 'https://test.example.com'
       }
     ]
   };

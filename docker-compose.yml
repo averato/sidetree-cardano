@@ -34,12 +34,12 @@ services:
 
   mongodb0:
     container_name: mongodb0
-    image: mongo:3.6.9
+    image: mongo:5.0.3
     ports:
       - "27017:27017"
-    command: [ "mongod"
-             , "--bind_ip_all" 
-             ]    
+        #    command: [ "mongod"
+        #             , "--bind_ip_all" 
+        #             ]    
   ipfs0:
     container_name: ipfs0
     image: ipfs/kubo:latest                          #go-ipfs:latest

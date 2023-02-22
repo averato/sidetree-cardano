@@ -1,5 +1,5 @@
 import CardanoClient from '../CardanoClient';
-import BitcoinLockTransactionModel from '../models/CardanoLockTransactionModel';
+import LockTransactionModel from '../models/CardanoLockTransactionModel';
 import ErrorCode from '../ErrorCode';
 import EventCode from '../EventCode';
 import EventEmitter from '@k-solutions/sidetree/dist/lib/common/EventEmitter';
@@ -171,12 +171,12 @@ export default class LockMonitor {
       };
     }
 
-    Logger.info(`Found last saved lock of type: ${lastSavedLock.type} with transaction id: ${lastSavedLock.transactionId}.`);
+    Logger.info(`Found last saved lock of type: ${lastSavedLock.type} with transaction id: ${lastSavedLock.transactionHash}.`);
 
     // Make sure that the last lock txn is actually broadcasted to the blockchain. Rebroadcast
     // if it is not as we don't want to do anything until last lock information is at least
     // broadcasted.
-    if (!(await this.isTransactionBroadcasted(lastSavedLock.transactionId))) {
+    if (!(await this.isTransactionBroadcasted(lastSavedLock.transactionHash))) {
       return {
         activeValueTimeLock: undefined,
         latestSavedLockInfo: lastSavedLock,
@@ -196,7 +196,7 @@ export default class LockMonitor {
     // If we're here then it means that we have saved some information about a lock
     // which is at least broadcasted to blockchain. Let's resolve it.
     const lastLockIdentifier: LockIdentifier = {
-      transactionId: lastSavedLock.transactionId,
+      transactionId: lastSavedLock.transactionHash,
       redeemScriptAsHex: lastSavedLock.redeemScriptAsHex
     };
 
@@ -230,17 +230,17 @@ export default class LockMonitor {
   }
 
   private async rebroadcastTransaction (lastSavedLock: SavedLockModel): Promise<void> {
-    Logger.info(`Rebroadcasting the transaction id: ${lastSavedLock.transactionId}`);
+    Logger.info(`Rebroadcasting the transaction id: ${lastSavedLock.transactionHash}`);
 
     // So we had some transaction information saved but the transaction was never found on the
     // blockchain. Either the transaction was broadcasted and we're just waiting for it to be
     // actually written or maybe this node died before it could actually broadcast the transaction.
     // Since we don't know which case it is and bitcoin will prevent 'double-spending' the same
     // transaction, we can just rebroadcast the same transaction.
-    const lockTransactionFromLastSavedLock: BitcoinLockTransactionModel = {
+    const lockTransactionFromLastSavedLock: LockTransactionModel = {
       redeemScriptAsHex: lastSavedLock.redeemScriptAsHex,
       serializedTransactionObject: lastSavedLock.rawTransaction,
-      transactionId: lastSavedLock.transactionId,
+      transactionId: lastSavedLock.transactionHash,
 
       // Setting a 'fake' fee because the model requires it but broadcasting does not really
       // require it so this is not going to have any effect when trying to broadcast.
@@ -250,14 +250,14 @@ export default class LockMonitor {
     await this.cardanoClient.broadcastLockTransaction(lockTransactionFromLastSavedLock);
   }
 
-  private async isTransactionBroadcasted (transactionId: string): Promise<boolean> {
+  private async isTransactionBroadcasted (transactionHash: string): Promise<boolean> {
     try {
-      await this.cardanoClient.getRawTransaction(transactionId);
+      await this.cardanoClient.getRawTransaction(transactionHash);
 
       // no exception thrown == transaction found == it was broadcasted even if it is only in the mempool.
       return true;
     } catch (e) {
-      Logger.warn(`Transaction with id: ${transactionId} was not found on the bitcoin. Error: ${JSON.stringify(e, Object.getOwnPropertyNames(e))}`);
+      Logger.warn(`Transaction with id: ${transactionHash} was not found on the bitcoin. Error: ${JSON.stringify(e, Object.getOwnPropertyNames(e))}`);
     }
 
     return false;
@@ -393,8 +393,8 @@ export default class LockMonitor {
 
     const releaseLockTransaction =
       await this.cardanoClient.createReleaseLockTransaction(
-        currentLockIdentifier.transactionId,
-        currentLockDuration);
+        currentLockIdentifier.transactionId);
+       // currentLockDuration);
 
     const savedLockModel = await this.saveThenBroadcastTransaction(releaseLockTransaction, SavedLockType.ReturnToWallet, desiredLockAmountInSatoshis);
     EventEmitter.emit(EventCode.CardanoLockMonitorLockReleased);
@@ -403,16 +403,17 @@ export default class LockMonitor {
   }
 
   private async saveThenBroadcastTransaction (
-    lockTransaction: BitcoinLockTransactionModel,
+    lockTransaction: LockTransactionModel,
     lockType: SavedLockType,
-    desiredLockAmountInSatoshis: number): Promise<SavedLockModel> {
+    desiredLockAmount: number): Promise<SavedLockModel> {
 
     const lockInfoToSave: SavedLockModel = {
-      desiredLockAmountInSatoshis: desiredLockAmountInSatoshis,
+      desiredLockAmountInAda: desiredLockAmount,
       rawTransaction: lockTransaction.serializedTransactionObject,
-      transactionId: lockTransaction.transactionId,
+      transactionHash: lockTransaction.transactionId,
       redeemScriptAsHex: lockTransaction.redeemScriptAsHex,
       createTimestamp: Date.now(),
+      datum: '',
       type: lockType
     };
 

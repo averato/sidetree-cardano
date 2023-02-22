@@ -4,8 +4,8 @@
   const util = require('util');
   const requestPromise = util.promisify(request);
 
-  // const nodeURL = 'http://localhost:3000';
-  const nodeURL = 'https://testnet.sidetree-cardano.com/cardano';
+  const nodeURL = 'http://localhost:3000';
+  // const nodeURL = 'https://testnet.sidetree-cardano.com/cardano';
 
   // DID to resolve
   const did = 'did:ada:EiAaf8BXolZrMqSKZK_zTjfCKwFHO-WjLtW_avtXHtkJJg';

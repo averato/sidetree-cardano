@@ -43,6 +43,19 @@ export default class CardanoClientBF {
 
   }
 
+//  /**
+//   * Access Client Wallett Address 
+//   */ 
+//  public async getWalletAddress(): Promise<string> {
+//    const clientAddress = this.cardanoWallet.getAddress().toString();
+//    return clientAddress;
+//  } 
+
+  /**
+   *  Create and Submit Transaction 
+   */ 
+//  public async broadcastLockTransaction(lockTransaction: )
+
   /**
    * Submit the signed transaction to Cardano
    * @param cardanoSidetreeTransaction The transaction object

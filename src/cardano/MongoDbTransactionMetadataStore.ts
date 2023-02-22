@@ -1,5 +1,5 @@
 import CardanoTransactionModel from './models/CardanoTransactionModel';
-import { Cursor } from 'mongodb';
+import { FindCursor } from 'mongodb';
 import ITransactionMetadataStore from './interfaces/ITransactionMetadataStore';
 import MongoDbStore from '@k-solutions/sidetree/dist/lib/common/MongoDbStore';
 
@@ -47,7 +47,7 @@ export default class MongoDbTransactionMetadataStore extends MongoDbStore implem
   }
 
   public async get (fromInclusiveTransactionNumber: number, toExclusiveTransactionNumber: number): Promise<CardanoTransactionModel[]> {
-    let dbCursor: Cursor<CardanoTransactionModel>;
+    let dbCursor: FindCursor<CardanoTransactionModel>;
 
     // Add filter to query.
     dbCursor = this.collection!.find({

@@ -1,9 +1,9 @@
-import BitcoinErrorCode from './ErrorCode';
-import BitcoinVersionModel from './models/BitcoinVersionModel';
-import IBitcoinConfig from './IBitcoinConfig';
-import IBlockMetadataStore from './interfaces/IBlockMetadataStore';
-import IFeeCalculator from './interfaces/IFeeCalculator';
-import ProtocolParameters from './models/ProtocolParameters';
+import ErrorCode from './ErrorCode';
+import CardanoVersionModel from './models/CardanoVersionModel';
+// import IBitcoinConfig from './IBitcoinConfig';
+// import IBlockMetadataStore from '@k-solutions/sidetree/dist/lib/interfaces/IBlockMetadataStore';
+// import IFeeCalculator from './interfaces/IFeeCalculator';
+// import ProtocolParameters from './models/ProtocolParameters';
 import SidetreeError from '../common/SidetreeError';
 
 /**

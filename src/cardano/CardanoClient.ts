@@ -6,8 +6,8 @@ class CardanoClient extends CardanoClientBF {
   /**
    * Accessor for Cardano client Wallet Address.
    */
-  public async getAddress (): Promise<String> {
-    return this.cardanoWallet.getAddress();
+  public async getAddress (): Promise<string> {
+    return this.cardanoWallet.getAddress().toString();
   }
 }
 

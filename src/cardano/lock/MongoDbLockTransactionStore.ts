@@ -1,5 +1,5 @@
 import { Long } from 'mongodb';
-import MongoDbStore from '../../common/MongoDbStore';
+import MongoDbStore from '@k-solutions/sidetree/dist/lib/common/MongoDbStore';
 import SavedLockModel from './../models/SavedLockedModel';
 
 /**
@@ -25,15 +25,15 @@ export default class MongoDbLockTransactionStore extends MongoDbStore {
    *
    * @param bitcoinLock The lock information to be added.
    */
-  public async addLock (bitcoinLock: SavedLockModel): Promise<void> {
+  public async addLock (transactionLock: SavedLockModel): Promise<void> {
     const lockInMongoDb = {
-      desiredLockAmountInSatoshis: bitcoinLock.desiredLockAmountInSatoshis,
-      transactionId: bitcoinLock.transactionId,
-      rawTransaction: bitcoinLock.rawTransaction,
-      redeemScriptAsHex: bitcoinLock.redeemScriptAsHex,
+      desiredLockAmountInSatoshis: transactionLock.desiredLockAmountInAda,
+      transactionId: transactionLock.transactionHash,
+      rawTransaction: transactionLock.rawTransaction,
+      redeemScriptAsHex: transactionLock.redeemScriptAsHex,
       // NOTE: MUST force 'createTimestamp' to be Int64 in MondoDB.
-      createTimestamp: Long.fromNumber(bitcoinLock.createTimestamp),
-      type: bitcoinLock.type
+      createTimestamp: Long.fromNumber(transactionLock.createTimestamp),
+      type: transactionLock.type
     };
 
     await this.collection!.insertOne(lockInMongoDb);

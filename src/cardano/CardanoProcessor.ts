@@ -49,7 +49,7 @@ export default class CardanoProcessor {
 
   // private static readonly pageSizeInTransactions = 100;
 
-  private pollTimeoutId: number | undefined;
+  private pollTimeoutId: NodeJS.Timeout | number | undefined;
 
   private serviceInfoProvider: ServiceInfoProvider;
 

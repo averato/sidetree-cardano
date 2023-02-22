@@ -31,7 +31,7 @@ async function handleRequestAndSetKoaResponse (requestHandler: () => Promise<any
       // Need to set the body explicitly, otherwise Koa will return HTTP 204
       koaResponse.body = '';
     }
-  } catch (error) {
+  } catch (error: any) {
     // console
     if ('status' in error) {
       koaResponse.status = error.status;
@@ -161,7 +161,7 @@ try {
         process.exit(1);
       });
   }
-} catch (error) {
+} catch (error: any) {
   console.log(error.toString());
   process.exit(1);
 }

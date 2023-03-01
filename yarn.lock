@@ -5,6 +5,20 @@ __metadata:
   version: 6
   cacheKey: 8
 
+"@averato/did-tools@https://github.com/averato/did-tools.git":
+  version: 0.6.0
+  resolution: "@averato/did-tools@https://github.com/averato/did-tools.git#commit=6a1e0db2a885792c45fbea8e12fe903e4296bc7f"
+  dependencies:
+    "@noble/ed25519": 1.7.1
+    "@noble/secp256k1": 1.7.0
+    canonicalize: 1.0.1
+    multiformats: 9.9.0
+    multihashes: 4.0.3
+    uri-js: 4.4.0
+  checksum: 40b0b6eab0429a4acb933a8cad41093db1220841ed002ec9921407694f07acefbfa6961e4aa4a7b5aaed93bf317605407030637812e99875e7b3690ddf64708f
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0":
   version: 7.15.8
   resolution: "@babel/code-frame@npm:7.15.8"
@@ -222,7 +236,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@decentralized-identity/ion-sdk@npm:0.6.0, @decentralized-identity/ion-sdk@npm:^0.6.0":
+"@decentralized-identity/ion-sdk@npm:0.6.0":
   version: 0.6.0
   resolution: "@decentralized-identity/ion-sdk@npm:0.6.0"
   dependencies:
@@ -6816,9 +6830,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "sidetree-cardano@workspace:."
   dependencies:
+    "@averato/did-tools": "https://github.com/averato/did-tools.git"
     "@blockfrost/blockfrost-js": 5.0.0
     "@commitlint/cli": ^10.0.0
-    "@decentralized-identity/ion-sdk": ^0.6.0
     "@decentralized-identity/ion-tools": ^1.0.5
     "@emurgo/cardano-serialization-lib-nodejs": ^9.1.0
     "@k-solutions/sidetree": "https://github.com/k-solutions/sidetree"

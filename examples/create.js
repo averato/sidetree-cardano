@@ -1,9 +1,12 @@
+import DID from './did';
+import generateKeyPair from './utils.js'; 
+
 /**  Example on how to create a DID */
 (async () => {
   const IonSdk = require('@decentralized-identity/ion-sdk');
   const randomBytes = require('randombytes');
-  const ed25519 = require('@transmute/did-key-ed25519');
-  const secp256k1 = require('@transmute/did-key-secp256k1');
+// const ed25519 = require('@transmute/did-key-ed25519');
+//   const secp256k1 = require('@transmute/did-key-secp256k1');
   const request = require('request');
   const util = require('util');
   const requestPromise = util.promisify(request);

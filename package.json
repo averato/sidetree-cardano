@@ -8,8 +8,8 @@
   "main": "dist/src/core.js",
   "types": "dist/lib/index.d.ts",
   "dependencies": {
+    "@averato/did-tools": "https://github.com/averato/did-tools.git",
     "@blockfrost/blockfrost-js": "5.0.0",
-    "@decentralized-identity/ion-sdk": "^0.6.0",
     "@decentralized-identity/ion-tools": "^1.0.5",
     "@emurgo/cardano-serialization-lib-nodejs": "^9.1.0",
     "@k-solutions/sidetree": "https://github.com/k-solutions/sidetree",

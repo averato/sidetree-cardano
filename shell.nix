@@ -19,6 +19,7 @@ in pkgs.mkShell {
   # Especially dependencies with native modules may need a Python installation.
   buildInputs = [ 
     nodejs
+    pkgs.nodePackages.ts-node
     yarn
     pkgs.typescript
     pkgs.nodePackages.typescript

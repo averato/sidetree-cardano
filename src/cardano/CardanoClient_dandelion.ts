@@ -19,7 +19,7 @@ import axios from 'axios';
  */
 export default class CardanoClient {
 
-  private readonly cardanoWallet: ICardanoWallet;
+  protected readonly cardanoWallet: ICardanoWallet;
 
   private readonly submitTxURL: string;
   private readonly graphQLURL: string;
@@ -47,6 +47,8 @@ export default class CardanoClient {
 
   }
 
+
+
   /**
    * Submit the signed transaction to Cardano
    * @param cardanoSidetreeTransaction The transaction object
@@ -70,7 +72,7 @@ export default class CardanoClient {
    */
   public async createSidetreeTransaction (transactionData: string): Promise<CardanoSidetreeTransactionModel> {
     const protoParams = await this.getLatestProtocolParameters();
-    const ledgerTip = await this.getLedgetTip();
+    const ledgerTip = await this.getLedgerTip();
     const utxos = await this.getUtxos();
     const transaction = this.cardanoWallet.createAndSignTransaction(transactionData, this.cardanoMetadataLabel, protoParams, utxos, ledgerTip.slot);
     return transaction;
@@ -412,7 +414,7 @@ export default class CardanoClient {
    * Get the latest block in Cardano
    * @returns the latest block
    */
-  public async getLedgetTip (): Promise<CardanoBlockModel> {
+  public async getLedgerTip (): Promise<CardanoBlockModel> {
     const resp = await axios.post(
       this.graphQLURL,
       {

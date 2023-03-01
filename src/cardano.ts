@@ -31,7 +31,8 @@ async function handleRequestAndSetKoaResponse (requestHandler: () => Promise<any
       // Need to set the body explicitly, otherwise Koa will return HTTP 204
       koaResponse.body = '';
     }
-  } catch (error) {
+  } catch (error: any) {
+    // console
     if ('status' in error) {
       koaResponse.status = error.status;
     } else {
@@ -74,7 +75,7 @@ const router = new Router();
 
 router.get('/transactions', async (ctx, _next) => {
   const params = querystring.parse(ctx.querystring);
-
+  console.log(`Cardano transactions params: ${ctx}`);
   let requestHandler;
   if ('since' in params && 'transaction-time-hash' in params) {
     const since = Number(params['since']);
@@ -99,6 +100,7 @@ router.get('/fee/:blockchainTime', async (ctx, _next) => {
 
 router.post('/transactions', async (ctx, _next) => {
   const writeRequest = JSON.parse(ctx.body);
+  console.log(`Tansaction anchor string: ${writeRequest.anchorString}`);
   const requestHandler = () => blockchainService.writeTransaction(writeRequest.anchorString);
   await handleRequestAndSetKoaResponse(requestHandler, ctx.response);
 });
@@ -110,6 +112,11 @@ router.get('/time', async (ctx, _next) => {
 
 router.get('/time/:hash', async (ctx, _next) => {
   const requestHandler = () => blockchainService.time(ctx.params.hash);
+  await handleRequestAndSetKoaResponse(requestHandler, ctx.response);
+});
+
+router.get('/locks/:identifier', async (ctx, _next) => {
+  const requestHandler = () => blockchainService.getValueTimeLock(ctx.params.identifier);
   await handleRequestAndSetKoaResponse(requestHandler, ctx.response);
 });
 
@@ -154,12 +161,12 @@ try {
         process.exit(1);
       });
   }
-} catch (error) {
+} catch (error: any) {
   console.log(error.toString());
   process.exit(1);
 }
-console.info('Sidetree Cardano service configuration:');
-console.info(config);
+// console.info('Sidetree Cardano service configuration:');
+// console.info(config);
 
 export {
   server,

@@ -1,6 +1,6 @@
-import * as Koa from 'koa';
-import * as Router from 'koa-router';
-import * as getRawBody from 'raw-body';
+import Koa from 'koa';
+import Router from 'koa-router';
+import getRawBody from 'raw-body';
 import {
   SidetreeConfig,
   SidetreeCore,

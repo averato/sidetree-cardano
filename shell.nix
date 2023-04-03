@@ -21,6 +21,7 @@ in pkgs.mkShell {
     nodejs
     pkgs.nodePackages.ts-node
     yarn
+    pkgs.esbuild
     pkgs.typescript
     pkgs.nodePackages.typescript
     pkgs.nodePackages.typescript-language-server   

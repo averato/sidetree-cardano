@@ -1,7 +1,9 @@
-import { AdaDid, DidRequest, LocalSigner } from '@averato/did-tools';
-import { generateKeyPair } from './utils.js';
+// import { AdaDid, DidRequest, LocalSigner } from '@averato/did-tools';
+// import { generateKeyPair } from './utils.js';
+const DidTools = require("@averato/did-tools");
 
-export class DID {
+
+class DID {
   #ops;
   #opQueue = Promise.resolve();
   #longForm;

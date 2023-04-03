@@ -1,6 +1,6 @@
 /* eslint-disable sort-imports */
 import * as semver from 'semver';
-import * as timeSpan from 'time-span';
+import timeSpan from 'time-span';
 import { ISidetreeEventEmitter, ISidetreeLogger } from '@k-solutions/sidetree/lib';
 import CardanoClient from './CardanoClient';
 import CardanoServiceStateModel from './models/CardanoServiceStateModel';

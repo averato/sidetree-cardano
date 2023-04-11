@@ -1,12 +1,14 @@
 // import * as bip39 from 'bip39-light';
 import * as cardanoWasm from '@emurgo/cardano-serialization-lib-nodejs';
-import CardanoInputModel from './models/CardanoInputModel';
-import CardanoProtocolParameters from './models/CardanoProtocolParameters';
-import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransactionModel';
-import ErrorCode from './ErrorCode';
-import ICardanoWallet from './interfaces/ICardanoWallet';
-import SidetreeError from '@k-solutions/sidetree/dist/lib/common/SidetreeError';
-const bip39 = require('bip39-light');
+import CardanoInputModel from './models/CardanoInputModel.ts';
+import CardanoProtocolParameters from './models/CardanoProtocolParameters.ts';
+import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransactionModel.ts';
+import ErrorCode from './ErrorCode.ts';
+import ICardanoWallet from './interfaces/ICardanoWallet.ts';
+import SidetreeError from 'sidetree/common/SidetreeError.ts';
+import bip39 from 'npm:bip39-light';
+import { Buffer } from 'node:buffer';
+
 /**
  * Represents a Cardano wallet.
  * // TODO error handling
@@ -14,7 +16,7 @@ const bip39 = require('bip39-light');
 export default class CardanoWallet implements ICardanoWallet {
 
   private readonly baseAddress: cardanoWasm.BaseAddress;
-  private readonly walletAddress: String;
+  private readonly walletAddress: string;
   private readonly privateKey: cardanoWasm.PrivateKey;
 
   constructor (cardanoWalletMnemonic: string, cardanoNetwork: string) {

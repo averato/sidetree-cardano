@@ -1,11 +1,11 @@
 /** Swager UI webservice */
-
-var express = require('express');
+import express from "npm:express"; 
+// let express = require('express');
 // ugly remove last path
-const root = __dirname.substring(0, __dirname.lastIndexOf('/'));
+const root = Deno.cwd();  // __dirname.substring(0, __dirname.lastIndexOf('/'));
 
 // use the application off of express
-var app = express();
+let app = express();
 
 // define the route for "/"
 app.get('/', function (_request: any, response: { sendFile: (arg0: string) => void; }) {

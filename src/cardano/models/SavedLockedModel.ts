@@ -1,4 +1,4 @@
-import LockTransactionType from './SavedLockType';
+import LockTransactionType from './SavedLockType.ts';
 
 /**
  * Encapsulates the data about a bitcoin 'lock' transaction saved in the database.
@@ -17,4 +17,4 @@ export default interface SavedLockModel {
   desiredLockAmountInAda: number;
   createTimestamp: number;
   type: LockTransactionType;
-};
+}

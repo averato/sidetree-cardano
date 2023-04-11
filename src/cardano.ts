@@ -1,9 +1,13 @@
-import Koa from "koa";
-import Router from "koa-router";
-import getRawBody from "raw-body";
+// deno-lint-ignore-file no-explicit-any
+ 
+import Koa from "npm:koa";
+import Router from "npm:koa-router";
+import getRawBody from "npm:raw-body";
 import querystring from "node:querystring";
-import ISidetreeCardanoConfig from "./cardano/ICardanoConfig";
-import SidetreeCardanoProcessor from "./cardano/CardanoProcessor";
+import ISidetreeCardanoConfig from "./cardano/ICardanoConfig.ts";
+import SidetreeCardanoProcessor from "./cardano/CardanoProcessor.ts";
+import { exit } from "https://deno.land/x/exit@0.0.4/mod.ts";
+import { Buffer } from 'node:buffer';
 
 /** Cardano Service  */
 interface ICardanoServiceConfig extends ISidetreeCardanoConfig {
@@ -58,16 +62,18 @@ async function handleRequestAndSetKoaResponse(
 
 // Selecting configuration file, environment variable overrides default config file.
 let configFilePath = "../json/testnet-cardano-config.json";
-if (process.env.CARDANO_CONFIG_FILE_PATH === undefined) {
+const cardanoConfigPath = Deno.env.get("CARDANO_CONFIG_FILE_PATH"); 
+if (cardanoConfigPath === undefined) {
   console.log(
     `Environment variable CARDANO_CONFIG_FILE_PATH undefined, using default path ${configFilePath} instead.`,
   );
 } else {
-  configFilePath = process.env.CARDANO_CONFIG_FILE_PATH;
+  configFilePath = cardanoConfigPath;
   console.log(`Loading configuration from ${configFilePath}...`);
 }
 
-const config: ICardanoServiceConfig = require(configFilePath);
+const configFile = await import(configFilePath, { assert: { type: "json" }});
+const config: ISidetreeCardanoConfig = configFile.default;
 const app = new Koa();
 
 // Raw body parser.
@@ -148,16 +154,17 @@ app.use((ctx, _next) => {
   ctx.response.status = 400;
 });
 
-const port = process.env.SIDETREE_CARDANO_PORT || config.port;
+const port = Deno.env.get("SIDETREE_CARDANO_PORT") || config.port;
 
 // initialize the blockchain service and kick-off background tasks
 let server: any;
 let blockchainService: SidetreeCardanoProcessor;
 try {
+  console.log(`Current parsed log: ${config}`);
   blockchainService = new SidetreeCardanoProcessor(config);
 
   // SIDETREE_TEST_MODE enables unit testing of this file by bypassing blockchain service initialization.
-  if (process.env.SIDETREE_TEST_MODE === "true") {
+  if (Deno.env.get("SIDETREE_TEST_MODE") === "true") {
     server = app.listen(port);
   } else {
     blockchainService.initialize()
@@ -172,12 +179,12 @@ try {
             JSON.stringify(error, Object.getOwnPropertyNames(error))
           }`,
         );
-        process.exit(1);
+        exit(1);
       });
   }
 } catch (error: any) {
   console.log(error.toString());
-  process.exit(1);
+  exit(1);
 }
 // console.info('Sidetree Cardano service configuration:');
 // console.info(config);

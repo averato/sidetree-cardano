@@ -1,5 +1,5 @@
 // Select CardanoClient library implemetation Dandelion API | Blockfrost
-import CardanoClientBF from './CardanoClient_blockfrost';
+import CardanoClientBF from './CardanoClient_blockfrost.ts';
 // import CardanoClient from './CardanoClient_dandelion';
 
 class CardanoClient extends CardanoClientBF {

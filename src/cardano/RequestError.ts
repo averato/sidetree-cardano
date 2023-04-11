@@ -1,5 +1,5 @@
-import Response from '@k-solutions/sidetree/dist/lib/common/Response';
-import ResponseStatus from '@k-solutions/sidetree/dist/lib/common/enums/ResponseStatus';
+import Response from 'sidetree/common/Response.ts';
+import ResponseStatus from 'sidetree/common/enums/ResponseStatus.ts';
 
 /**
  * Error class used as a response to external requests.

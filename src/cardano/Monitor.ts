@@ -1,10 +1,10 @@
-import CardanoClient from './CardanoClient';
-import ValueTimeLockModel from '@k-solutions/sidetree/dist/lib/common/models/ValueTimeLockModel';
-import SidetreeError from '@k-solutions/sidetree/dist/lib/common/SidetreeError';
-import ErrorCode from './ErrorCode';
-import LockTransactionType from './models/SavedLockType';
-import SavedLockModel from './models/SavedLockedModel';
-import Logger from '@k-solutions/sidetree/dist/lib/common/Logger';
+import CardanoClient from './CardanoClient.ts';
+import ValueTimeLockModel from 'sidetree/common/models/ValueTimeLockModel.ts';
+import SidetreeError from 'sidetree/common/SidetreeError.ts';
+import ErrorCode from './ErrorCode.ts';
+import LockTransactionType from './models/SavedLockType.ts';
+import SavedLockModel from './models/SavedLockedModel.ts';
+import Logger from 'sidetree/common/Logger.ts';
 
 // import VersionManager from '../VersionManager';
 

@@ -1,6 +1,6 @@
-import CardanoInputModel from '../models/CardanoInputModel';
-import CardanoProtocolParameters from '../models/CardanoProtocolParameters';
-import CardanoSidetreeTransactionModel from '../models/CardanoSidetreeTransactionModel';
+import CardanoInputModel from '../models/CardanoInputModel.ts';
+import CardanoProtocolParameters from '../models/CardanoProtocolParameters.ts';
+import CardanoSidetreeTransactionModel from '../models/CardanoSidetreeTransactionModel.ts';
 
 /**
  * Represents a simple cardano wallet.
@@ -10,7 +10,7 @@ export default interface ICardanoWallet {
   /**
    * Gets the address object associated with this wallet.
    */
-  getAddress (): String;
+  getAddress (): string;
 
   /**
    * Create and sign a transaction.
@@ -20,8 +20,8 @@ export default interface ICardanoWallet {
    * @returns The signed transaction.
    */
    createAndSignTransaction (
-     anchorString: String,
-     metadataLabel: String,
+     anchorString: string,
+     metadataLabel: string,
      protocolParameters: CardanoProtocolParameters,
      utxos: CardanoInputModel[],
      ledgerTip: number | null
@@ -32,6 +32,6 @@ export default interface ICardanoWallet {
    *
    * @returns The generated mnemonic.
    */
-  generateMnmonic (): String;
+  generateMnmonic (): string;
 
  }

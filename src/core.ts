@@ -1,16 +1,17 @@
-import * as Koa from 'koa';
-import * as Router from 'koa-router';
-import * as getRawBody from 'raw-body';
+import Koa from 'koa';
+import Router from 'koa-router';
+import getRawBody from 'npm:raw-body';
 import {
   SidetreeConfig,
   SidetreeCore,
   SidetreeResponse,
   SidetreeResponseModel,
   SidetreeVersionModel
-} from '@k-solutions/sidetree';
-import Ipfs from '@k-solutions/sidetree/dist/lib/ipfs/Ipfs';
-import ResponseStatus from '@k-solutions/sidetree/dist/lib/common/enums/ResponseStatus';
-const cors = require('koa2-cors');
+} from 'sidetree/index.ts';
+import Ipfs from 'sidetree/ipfs/Ipfs.ts';
+import ResponseStatus from 'sidetree/common/enums/ResponseStatus.ts';
+import cors from 'npm:koa2-cors';
+import { exit } from "https://deno.land/x/exit@0.0.4/mod.ts";
 
 /** Sidetree Core Service */
 interface ServerConfig extends SidetreeConfig {
@@ -22,27 +23,34 @@ interface ServerConfig extends SidetreeConfig {
 }
 
 // Selecting core config file, environment variable overrides default config file.
-let configFilePath = '../json/testnet-core-config.json';
-if (process.env.CORE_CONFIG_FILE_PATH === undefined) {
+let configFilePath: string | undefined = '../json/testnet-core-config.json';
+
+if (Deno.env.get("CORE_CONFIG_FILE_PATH") === undefined) {
   console.log(`Environment variable CORE_CONFIG_FILE_PATH undefined, using default core config path ${configFilePath} instead.`);
 } else {
-  configFilePath = process.env.CORE_CONFIG_FILE_PATH;
+  configFilePath = Deno.env.get("CORE_CONFIG_FILE_PATH");
   console.log(`Loading core config from ${configFilePath}...`);
 }
-const config: ServerConfig = require(configFilePath);
-console.log(`Sidetree config: ${config}`);
+
+const configFile = await import(configFilePath, { assert: { type: "json" } });
+const config: SidetreeConfig = configFile.default;
+// console.log(`Sidetree config: ${config}`);
 
 // Selecting versioning file, environment variable overrides default config file.
-let versioningConfigFilePath = '../json/testnet-core-versioning.json';
-if (process.env.CORE_VERSIONING_CONFIG_FILE_PATH === undefined) {
+let versioningConfigFilePath: string | undefined = '../json/testnet-core-versioning.json';
+
+if (Deno.env.get("CORE_VERSIONING_CONFIG_FILE_PATH") === undefined) {
   console.log(`Environment variable CORE_VERSIONING_CONFIG_FILE_PATH 
   undefined, using default core versioning config path ${versioningConfigFilePath} instead.`);
 } else {
-  versioningConfigFilePath = process.env.CORE_VERSIONING_CONFIG_FILE_PATH;
+  versioningConfigFilePath = Deno.env.get("CORE_VERSIONING_CONFIG_FILE_PATH");
   console.log(`Loading core versioning config from ${versioningConfigFilePath}...`);
 }
 
-const coreVersions: SidetreeVersionModel[] = require(versioningConfigFilePath);
+const coreVersionFile = await import(versioningConfigFilePath, { assert: { type: "json" } });
+const coreVersions: SidetreeVersionModel[] = coreVersionFile.default;
+
+// console.log(`Loaded configs: ${[JSON.stringify(coreVersions), JSON.stringify(config)]}`);
 
 const ipfsFetchTimeoutInSeconds = 10;
 const cas = new Ipfs(config.ipfsHttpApiEndpointUri, ipfsFetchTimeoutInSeconds);
@@ -60,6 +68,9 @@ app.use(async (ctx, next) => {
 const router = new Router();
 router.post('/operations', async (ctx, _next) => {
   const response = await sidetreeCore.handleOperationRequest(ctx.body);
+
+  console.log(`DiD Operation response: ${JSON.stringify(response)}`);    
+
   setKoaResponse(response, ctx.response);
 });
 
@@ -78,7 +89,7 @@ router.get(`${resolvePath}:did`, async (ctx, _next) => {
 
 router.get('/monitor/operation-queue-size', async (ctx, _next) => {
   const body = await sidetreeCore.monitor.getOperationQueueSize();
-  const response = { status: ResponseStatus.Succeeded, body };
+  const response = { status: RggesponseStatus.Succeeded, body };
   setKoaResponse(response, ctx.response);
 });
 
@@ -106,7 +117,7 @@ app.use((ctx, _next) => {
     });
   } catch (error) {
     console.log(`Sidetree node initialization failed with error ${error}`);
-    process.exit(1);
+    exit(1);
   }
 })();
 

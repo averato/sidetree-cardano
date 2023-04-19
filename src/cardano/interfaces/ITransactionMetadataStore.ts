@@ -1,4 +1,4 @@
-import CardanoTransactionModel from '../models/CardanoTransactionModel';
+import CardanoTransactionModel from '../models/CardanoTransactionModel.ts';
 
 /**
  * An abstraction for the persistence of transaction metadata.

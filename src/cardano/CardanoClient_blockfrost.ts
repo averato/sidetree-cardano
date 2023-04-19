@@ -1,15 +1,16 @@
 import { BlockFrostAPI } from '@blockfrost/blockfrost-js';
-import CardanoBlockModel from './models/CardanoBlockModel';
-import CardanoInputModel from './models/CardanoInputModel';
-import CardanoMetadataModel from './models/CardanoMetadataModel';
-import CardanoOutputModel from './models/CardanoOutputModel';
-import CardanoProtocolParameters from './models/CardanoProtocolParameters';
-import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransactionModel';
-import CardanoTransactionModel from './models/CardanoTransactionModel';
-import CardanoWallet from './CardanoWallet';
-import ICardanoWallet from './interfaces/ICardanoWallet';
-import Logger from '@k-solutions/sidetree/dist/lib/common/Logger';
-import TransactionNumber from './TransactionNumber';
+import CardanoBlockModel from './models/CardanoBlockModel.ts';
+import CardanoInputModel from './models/CardanoInputModel.ts';
+import CardanoMetadataModel from './models/CardanoMetadataModel.ts';
+import CardanoOutputModel from './models/CardanoOutputModel.ts';
+import CardanoProtocolParameters from './models/CardanoProtocolParameters.ts';
+import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransactionModel.ts';
+import CardanoTransactionModel from './models/CardanoTransactionModel.ts';
+import CardanoWallet from './CardanoWallet.ts';
+import ICardanoWallet from './interfaces/ICardanoWallet.ts';
+import Logger from 'sidetree/common/Logger.ts';
+import TransactionNumber from './TransactionNumber.ts';
+import { Buffer } from 'node:buffer';
 
 /**
  * Encapsulates functionality for reading/writing to the Cardano ledger

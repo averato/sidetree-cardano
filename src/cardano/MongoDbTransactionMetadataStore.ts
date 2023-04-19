@@ -1,7 +1,7 @@
-import CardanoTransactionModel from './models/CardanoTransactionModel';
-import { FindCursor } from 'mongodb';
-import ITransactionMetadataStore from './interfaces/ITransactionMetadataStore';
-import MongoDbStore from '@k-solutions/sidetree/dist/lib/common/MongoDbStore';
+import CardanoTransactionModel from './models/CardanoTransactionModel.ts';
+import { FindCursor } from 'npm:mongodb';
+import ITransactionMetadataStore from './interfaces/ITransactionMetadataStore.ts';
+import MongoDbStore from 'sidetree/common/MongoDbStore.ts';
 
 /**
  * Implementation of ITransactionMetadataStore using MongoDB database.

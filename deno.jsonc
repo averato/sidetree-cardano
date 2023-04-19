@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "sidetree": "../sidetree/lib",
+    "sidetree/": "../sidetree/lib/",
+    "did-tools/": "../did-tools/lib/"
+  }
+}

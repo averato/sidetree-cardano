@@ -1,5 +1,5 @@
-import CardanoInputModel from './CardanoInputModel';
-import CardanoOutputModel from './CardanoOutputModel';
+import CardanoInputModel from './CardanoInputModel.ts';
+import CardanoOutputModel from './CardanoOutputModel.ts';
 
 /**
  * Encapsulates data for a Cardano transaction.

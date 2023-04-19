@@ -1,29 +1,29 @@
 /* eslint-disable sort-imports */
-import * as semver from 'semver';
-import * as timeSpan from 'time-span';
-import { ISidetreeEventEmitter, ISidetreeLogger } from '@k-solutions/sidetree/lib';
-import CardanoClient from './CardanoClient';
-import CardanoServiceStateModel from './models/CardanoServiceStateModel';
-import CardanoTransactionModel from './models/CardanoTransactionModel';
-import ErrorCode from './ErrorCode';
-import EventCode from './EventCode';
-import EventEmitter from '@k-solutions/sidetree/dist/lib/common/EventEmitter';
-import ICardanoConfig from './ICardanoConfig';
-import LogColor from '@k-solutions/sidetree/dist/lib//common/LogColor';
-import Logger from '@k-solutions/sidetree/dist/lib//common/Logger';
-import MongoDbTransactionMetadataStore from './MongoDbTransactionMetadataStore';
-import MongoDbServiceStateStore from '@k-solutions/sidetree/dist/lib/common/MongoDbServiceStateStore';
-import MongoDbTransactionStore from '@k-solutions/sidetree/dist/lib/common/MongoDbTransactionStore';
-import Monitor from './Monitor';
-import RequestError from './RequestError';
-import ResponseStatus from '@k-solutions/sidetree/dist/lib/common/enums/ResponseStatus';
-import ServiceInfoProvider from '@k-solutions/sidetree/dist/lib/common/ServiceInfoProvider';
-import ServiceVersionModel from '@k-solutions/sidetree/dist/lib/common/models/ServiceVersionModel';
-import SharedErrorCode from '@k-solutions/sidetree/dist/lib//common/SharedErrorCode';
-import SidetreeError from '@k-solutions/sidetree/dist/lib//common/SidetreeError';
-import TransactionFeeModel from '@k-solutions/sidetree/dist/lib/common/models/TransactionFeeModel';
-import TransactionModel from '@k-solutions/sidetree/dist/lib/common/models/TransactionModel';
-import ValueTimeLockModel from '@k-solutions/sidetree/dist/lib/common/models/ValueTimeLockModel';
+import * as semver from 'npm:semver';
+import timeSpan from 'npm:time-span';
+import { ISidetreeEventEmitter, ISidetreeLogger } from 'sidetree/index.ts';
+import CardanoClient from './CardanoClient.ts';
+import CardanoServiceStateModel from './models/CardanoServiceStateModel.ts';
+import CardanoTransactionModel from './models/CardanoTransactionModel.ts';
+import ErrorCode from './ErrorCode.ts';
+import EventCode from './EventCode.ts';
+import EventEmitter from 'sidetree/common/EventEmitter.ts';
+import ICardanoConfig from './ICardanoConfig.ts';
+import LogColor from 'sidetree/common/LogColor.ts';
+import Logger from 'sidetree/common/Logger.ts';
+import MongoDbTransactionMetadataStore from './MongoDbTransactionMetadataStore.ts';
+import MongoDbServiceStateStore from 'sidetree/common/MongoDbServiceStateStore.ts';
+import MongoDbTransactionStore from 'sidetree/common/MongoDbTransactionStore.ts';
+import Monitor from './Monitor.ts';
+import RequestError from './RequestError.ts';
+import ResponseStatus from 'sidetree/common/enums/ResponseStatus.ts';
+import ServiceInfoProvider from 'sidetree/common/ServiceInfoProvider.ts';
+import ServiceVersionModel from 'sidetree/common/models/ServiceVersionModel.ts';
+import SharedErrorCode from 'sidetree/common/SharedErrorCode.ts';
+import SidetreeError from 'sidetree/common/SidetreeError.ts';
+import TransactionFeeModel from 'sidetree/common/models/TransactionFeeModel.ts';
+import TransactionModel from 'sidetree/common/models/TransactionModel.ts';
+import ValueTimeLockModel from 'sidetree/common/models/ValueTimeLockModel.ts';
 // import LockMonitor from './lock/LockMonitor';
 
 /**
@@ -55,7 +55,7 @@ export default class CardanoProcessor {
 
   private cardanoClient: CardanoClient;
 
-  private minConfirmations: Number;
+  private minConfirmations: number;
 
   // private spendingMonitor: SpendingMonitor;
   // private lockMonitor: LockMonitor; 
@@ -270,7 +270,7 @@ export default class CardanoProcessor {
    * Validate cardano transaction metadata
    * @param cardanoTransaction
    */
-  private validateTransaction (cardanoTransaction: CardanoTransactionModel) : Boolean {
+  private validateTransaction (cardanoTransaction: CardanoTransactionModel) : boolean {
     Logger.info(`Cardano Transaction Metadata: ${cardanoTransaction.metadata}`);
     let validated = true;
     // Validate that cardano metadata starts with the configured prefix
@@ -291,7 +291,7 @@ export default class CardanoProcessor {
   /**
    * Get transaction metadata from new to last processed transaction
    */
-  private async getTransactionMetadatas (): Promise<String[]> {
+  private async getTransactionMetadatas (): Promise<string[]> {
     const lastProcessedTransaction = await this.transactionMetadataStore.getLast();
     let lastTransactionFound = false;
     // start retrieving batch of 10 metadatas from page 1

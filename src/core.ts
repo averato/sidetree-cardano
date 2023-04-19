@@ -68,6 +68,9 @@ app.use(async (ctx, next) => {
 const router = new Router();
 router.post('/operations', async (ctx, _next) => {
   const response = await sidetreeCore.handleOperationRequest(ctx.body);
+
+  console.log(`DiD Operation response: ${JSON.stringify(response)}`);    
+
   setKoaResponse(response, ctx.response);
 });
 

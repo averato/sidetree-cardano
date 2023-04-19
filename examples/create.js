@@ -1,6 +1,6 @@
 // import DID from './did';
 // import generateKeyPair from './utils.js'; 
-import {DidRequest, DidKey} from '@averato/did-tools';
+import {DidRequest, DidKey} from 'did-tools/index.ts';
 
 /**  Example on how to create a DID */
 (async () => {
@@ -8,9 +8,9 @@ import {DidRequest, DidKey} from '@averato/did-tools';
 //  const randomBytes = require('randombytes');
 //  const ed25519 = require('@transmute/did-key-ed25519');
 //  const secp256k1 = require('@transmute/did-key-secp256k1');
-  const request = require('request');
-  const util = require('util');
-  const requestPromise = util.promisify(request);
+//  const request = require('request');
+//  const util = require('util');
+//  const requestPromise = util.promisify(request);
 
   const nodeURL = 'http://localhost:3000';
   // const nodeURL = 'https://testnet.sidetree-cardano.com/cardano';
@@ -60,13 +60,12 @@ import {DidRequest, DidKey} from '@averato/did-tools';
   console.log('POST operation: ' + JSON.stringify(createRequest));
 
   // POST request body to Sidetree-Cardano node API
-  const resp = await requestPromise({
-    url: nodeURL + '/operations',
+  const resp = await fetch(nodeURL + '/operations', {
     method: 'POST',
     body: JSON.stringify(createRequest)
   });
-  const respBody = JSON.parse(resp.body);
-  console.log(JSON.stringify(respBody));
+  const respBody = await resp.json(); // JSON.parse(resp.body);
+ // console.log(JSON.stringify(respBody));
   console.log('Your generated DID: ' + JSON.stringify(respBody));
 
   // Helper function to generate keys

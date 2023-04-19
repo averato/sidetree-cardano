@@ -8,6 +8,7 @@
   "types": "dist/lib/index.d.ts",
   "type": "module",
   "dependencies": {
+    "@noble-ed25519": "^2.0.0", 
     "@averato/did-tools": "https://github.com/averato/did-tools.git",
     "@blockfrost/blockfrost-js": "5.0.0",
     "@decentralized-identity/ion-tools": "^1.0.5",

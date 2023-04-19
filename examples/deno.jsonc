@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "sidetree": "../sidetree/lib/",
+    "sidetree/": "../sidetree/lib/",
+    "did-tools": "../did-tools/lib/"   
+  },
+  "tasks": {
+    "dev": "deno run --watch src/cardano.ts"
+  }
+}

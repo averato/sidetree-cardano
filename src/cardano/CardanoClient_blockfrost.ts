@@ -1,4 +1,4 @@
-import { BlockFrostAPI } from '@blockfrost/blockfrost-js';
+import { BlockFrostAPI } from 'npm:@blockfrost/blockfrost-js';
 import CardanoBlockModel from './models/CardanoBlockModel.ts';
 import CardanoInputModel from './models/CardanoInputModel.ts';
 import CardanoMetadataModel from './models/CardanoMetadataModel.ts';

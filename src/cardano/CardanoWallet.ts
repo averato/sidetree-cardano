@@ -1,5 +1,5 @@
 // import * as bip39 from 'bip39-light';
-import * as cardanoWasm from '@emurgo/cardano-serialization-lib-nodejs';
+import * as cardanoWasm from 'npm:@emurgo/cardano-serialization-lib-nodejs';
 import CardanoInputModel from './models/CardanoInputModel.ts';
 import CardanoProtocolParameters from './models/CardanoProtocolParameters.ts';
 import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransactionModel.ts';

@@ -1,0 +1,11 @@
+{
+  "batchingIntervalInSeconds": 10,
+  "blockchainServiceUri": "http://172.16.238.11:3002",
+  "databaseName": "ada-testnet-core",
+  "didMethodName": "ada",
+  "ipfsHttpApiEndpointUri": "http://172.16.238.3:5001",
+  "maxConcurrentDownloads": 20,
+  "mongoDbConnectionString": "mongodb://172.16.238.2:27017/",
+  "observingIntervalInSeconds": 120,
+  "port": 3000
+}

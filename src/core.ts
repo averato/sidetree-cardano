@@ -7,9 +7,9 @@ import {
   SidetreeResponse,
   SidetreeResponseModel,
   SidetreeVersionModel
-} from 'sidetree/index.ts';
-import Ipfs from 'sidetree/ipfs/Ipfs.ts';
-import ResponseStatus from 'sidetree/common/enums/ResponseStatus.ts';
+} from 'sidetree/lib/index.ts';
+import Ipfs from 'sidetree/lib/ipfs/Ipfs.ts';
+import ResponseStatus from 'sidetree/lib/common/enums/ResponseStatus.ts';
 import cors from 'npm:koa2-cors';
 import { exit } from "https://deno.land/x/exit@0.0.4/mod.ts";
 

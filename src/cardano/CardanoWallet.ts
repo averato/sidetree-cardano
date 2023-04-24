@@ -1,11 +1,10 @@
-// import * as bip39 from 'bip39-light';
 import * as cardanoWasm from 'npm:@emurgo/cardano-serialization-lib-nodejs';
 import CardanoInputModel from './models/CardanoInputModel.ts';
 import CardanoProtocolParameters from './models/CardanoProtocolParameters.ts';
 import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransactionModel.ts';
 import ErrorCode from './ErrorCode.ts';
 import ICardanoWallet from './interfaces/ICardanoWallet.ts';
-import SidetreeError from 'sidetree/common/SidetreeError.ts';
+import SidetreeError from 'sidetree/lib/common/SidetreeError.ts';
 import bip39 from 'npm:bip39-light';
 import { Buffer } from 'node:buffer';
 

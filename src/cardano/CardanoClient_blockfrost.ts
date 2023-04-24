@@ -8,7 +8,7 @@ import CardanoSidetreeTransactionModel from './models/CardanoSidetreeTransaction
 import CardanoTransactionModel from './models/CardanoTransactionModel.ts';
 import CardanoWallet from './CardanoWallet.ts';
 import ICardanoWallet from './interfaces/ICardanoWallet.ts';
-import Logger from 'sidetree/common/Logger.ts';
+import Logger from 'sidetree/lib/common/Logger.ts';
 import TransactionNumber from './TransactionNumber.ts';
 import { Buffer } from 'node:buffer';
 

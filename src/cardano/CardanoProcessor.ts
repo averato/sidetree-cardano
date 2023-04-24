@@ -1,29 +1,29 @@
 /* eslint-disable sort-imports */
 import * as semver from 'npm:semver';
 import timeSpan from 'npm:time-span';
-import { ISidetreeEventEmitter, ISidetreeLogger } from 'sidetree/index.ts';
+import { ISidetreeEventEmitter, ISidetreeLogger } from 'sidetree/lib/index.ts';
 import CardanoClient from './CardanoClient.ts';
 import CardanoServiceStateModel from './models/CardanoServiceStateModel.ts';
 import CardanoTransactionModel from './models/CardanoTransactionModel.ts';
 import ErrorCode from './ErrorCode.ts';
 import EventCode from './EventCode.ts';
-import EventEmitter from 'sidetree/common/EventEmitter.ts';
+import EventEmitter from 'sidetree/lib/common/EventEmitter.ts';
 import ICardanoConfig from './ICardanoConfig.ts';
-import LogColor from 'sidetree/common/LogColor.ts';
-import Logger from 'sidetree/common/Logger.ts';
+import LogColor from 'sidetree/lib/common/LogColor.ts';
+import Logger from 'sidetree/lib/common/Logger.ts';
 import MongoDbTransactionMetadataStore from './MongoDbTransactionMetadataStore.ts';
-import MongoDbServiceStateStore from 'sidetree/common/MongoDbServiceStateStore.ts';
-import MongoDbTransactionStore from 'sidetree/common/MongoDbTransactionStore.ts';
+import MongoDbServiceStateStore from 'sidetree/lib/common/MongoDbServiceStateStore.ts';
+import MongoDbTransactionStore from 'sidetree/lib/common/MongoDbTransactionStore.ts';
 import Monitor from './Monitor.ts';
 import RequestError from './RequestError.ts';
-import ResponseStatus from 'sidetree/common/enums/ResponseStatus.ts';
-import ServiceInfoProvider from 'sidetree/common/ServiceInfoProvider.ts';
-import ServiceVersionModel from 'sidetree/common/models/ServiceVersionModel.ts';
-import SharedErrorCode from 'sidetree/common/SharedErrorCode.ts';
-import SidetreeError from 'sidetree/common/SidetreeError.ts';
-import TransactionFeeModel from 'sidetree/common/models/TransactionFeeModel.ts';
-import TransactionModel from 'sidetree/common/models/TransactionModel.ts';
-import ValueTimeLockModel from 'sidetree/common/models/ValueTimeLockModel.ts';
+import ResponseStatus from 'sidetree/lib/common/enums/ResponseStatus.ts';
+import ServiceInfoProvider from 'sidetree/lib/common/ServiceInfoProvider.ts';
+import ServiceVersionModel from 'sidetree/lib/common/models/ServiceVersionModel.ts';
+import SharedErrorCode from 'sidetree/lib/common/SharedErrorCode.ts';
+import SidetreeError from 'sidetree/lib/common/SidetreeError.ts';
+import TransactionFeeModel from 'sidetree/lib/common/models/TransactionFeeModel.ts';
+import TransactionModel from 'sidetree/lib/common/models/TransactionModel.ts';
+import ValueTimeLockModel from 'sidetree/lib/common/models/ValueTimeLockModel.ts';
 // import LockMonitor from './lock/LockMonitor';
 
 /**

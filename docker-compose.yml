@@ -27,19 +27,58 @@ version: '3.4'
 # During the first start, default configurations are created for all peers.
 
 services:
-
+  cardano:
+    build: .
+    container_name: deno-cardano
+    image: deno-cardano-sidetree
+    environment:
+        - DENO_RUN_FILE="src/cardano.ts"
+        - PORT=3002      
+    ports:
+      - "3002:3002"
+    command: ["run", "--allow-all" , "src/cardano.ts"]    
+    networks:
+      sidetree_net:
+        ipv4_address: 172.16.238.11 
+  core:
+    build: .
+    container_name: deno-core
+    image: deno-core-sidetree
+    environment:
+        - DENO_RUN_FILE="src/core.ts"
+        - PORT=3000      
+    ports:
+      - "3000:3000"
+    command: ["run", "--allow-all" , "src/core.ts"]    
+    networks:
+      sidetree_net:
+        ipv4_address: 172.16.238.12 
+  swagger:
+    build: .
+    container_name: deno-swagger 
+    image: deno-swagger-sidetree
+    environment:
+        - DENO_RUN_FILE="src/swagger.ts"
+        - PORT=8090      
+    ports:
+      - "8090:8090"
+    command: ["run", "--allow-all" , "src/swagger.ts"]    
+    networks:
+      sidetree_net:
+        ipv4_address: 172.16.238.13 
+        
 ##################################################################################
 ## Cluster PEER 0 ################################################################
 ##################################################################################
-
   mongodb0:
     container_name: mongodb0
     image: mongo:5.0.3
     ports:
       - "27017:27017"
-        #    command: [ "mongod"
-        #             , "--bind_ip_all" 
-        #             ]    
+    networks:
+      sidetree_net:
+        ipv4_address: 172.16.238.2 
+
   ipfs0:
     container_name: ipfs0
     image: ipfs/kubo:latest                          #go-ipfs:latest
@@ -51,6 +90,9 @@ services:
     - "8080:8080" # ipfs gateway - expose if needed/wanted
     volumes:
       - ./compose/ipfs0:/data/ipfs
+    networks:
+      sidetree_net:
+        ipv4_address: 172.16.238.3 
 
         #  cluster0:
         #    container_name: cluster0
@@ -126,4 +168,12 @@ services:
         #      - ./compose/cluster2:/data/ipfs-cluster
         #
 # For adding more peers, copy PEER 1 and rename things to ipfs2, cluster2.
-# Keep bootstrapping to cluster0.
+# Keep bootstrapping to cluster0
+networks:
+  sidetree_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+          gateway: 172.16.238.1

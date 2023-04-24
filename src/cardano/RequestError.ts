@@ -1,5 +1,5 @@
-import Response from 'sidetree/common/Response.ts';
-import ResponseStatus from 'sidetree/common/enums/ResponseStatus.ts';
+import Response from 'sidetree/lib/common/Response.ts';
+import ResponseStatus from 'sidetree/lib/common/enums/ResponseStatus.ts';
 
 /**
  * Error class used as a response to external requests.

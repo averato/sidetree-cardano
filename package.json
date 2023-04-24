@@ -7,13 +7,8 @@
   "main": "dist/src/core.js",
   "types": "dist/lib/index.d.ts",
   "dependencies": {
-    "@averato/did-tools": "https://github.com/averato/did-tools.git",
     "@blockfrost/blockfrost-js": "5.0.0",
-    "@decentralized-identity/ion-tools": "^1.0.5",
     "@emurgo/cardano-serialization-lib-nodejs": "^9.1.0",
-    "@k-solutions/sidetree": "https://github.com/k-solutions/sidetree.git",
-    "@supabase/postgrest-js": "^0.35.0",
-    "@transmute/did-key-ed25519": "^0.3.0-unstable.4",
     "@types/bitcore-lib": "^0.15.3",
     "@types/koa": "^2.13.4",
     "@types/koa-router": "^7.4.4",
@@ -21,14 +16,11 @@
     "bip39-light": "^1.0.7",
     "bitcore-lib": "^8.25.10",
     "bson": "^4.5.3",
-    "express": "^4.17.1",
     "koa": "^2.13.3",
     "koa-router": "^10.1.1",
     "koa2-cors": "^2.0.6",
     "kubo-rpc-client": "^2.0.2",
-    "request": "^2.88.2",
-    "yarn": "^1.22.19",
-    "yarn-run-all": "^3.1.1"
+    "request": "^2.88.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^10.0.0",
